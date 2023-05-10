@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>12306</title>
+    <style>
+        table,tr,th{
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+
+    <label for="startStation">起始站: </label> <input id="startStation" type="text" name="startStation">
+    <label for="endStation">终点站:</label> <input id="endStation" type="text" name="endStation">
+    <label for="departureDate">出发日期:</label><input id="departureDate" type="date" name="departureDate">
+
+    <button id="search" type="submit">查询</button>
+
+
+    <table>
+        <tr>
+            <th>车次</th>
+            <th>出发站<br>到达站</th>
+            <th>出发时间<br>到达时间</th>
+            <th>历时</th>
+            <th>商务座<br>特等座</th>
+        </tr>
+    </table>
+    <script>
+        window.onload=function(){
+            var button =document.getElementById("search").onclick=function(){
+               //Ajax发送请求
+                request=new XMLHttpRequest();
+                request.onreadstatechange=callBack;
+                request.open("GET","/searchTicket")
+                request.send(null);
+            }
+        }
+    </script>
+</body>
+</html>
