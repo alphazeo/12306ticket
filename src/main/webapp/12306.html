@@ -22,44 +22,6 @@
         window.onload = function () {
             //找到查询按钮
             document.getElementsByClassName("search")[0].onclick = function () {
-                // 开始操作DOM
-                /*
-                <tr>
-                    <td>K599</td>
-                    <td>桂林<br>广州</td>
-                    <td>08:39<br>11:40</td>
-                    <td>3时</td>
-                    <td>aaaa <br> bbbb</td>
-                </tr>
-                */
-                //实际项目中，数据要从数据库查询
-
-                /*var td1=document.createElement("td");
-                td1.appendChild(document.createTextNode("K599"));
-
-                var td2=document.createElement("td");
-                td2.appendChild(document.createTextNode("桂林<br>广州"));
-
-                var td3=document.createElement("td");
-                td3.appendChild(document.createTextNode("08:39<br>11:40"));
-
-                var td4=document.createElement("td");
-                td4.appendChild(document.createTextNode("3时"));
-
-                var td5=document.createElement("td");
-                td5.appendChild(document.createTextNode("aaaa <br> bbbb"));
-
-
-                var tr=document.createElement("tr");
-                tr.appendChild(td1);
-                tr.appendChild(td2);
-                tr.appendChild(td3);
-                tr.appendChild(td4);
-                tr.appendChild(td5);
-
-                document.getElementById("train").appendChild(tr);
-                */
-                //   利用ajax对12306的后端《查询余票》接口进行请求
                 request = new XMLHttpRequest();
                 request.onreadystatechange = callBack;
                 //执行下面open之前要把三个input的value拿到
@@ -77,11 +39,41 @@
             /*
             回调：服务器响应成功后，利用回调函数拿到服务器返回的数据
             */
-            console.log("我是回调函数");
             if (request.readyState==4){
                 //请求完成
                 if (request.status==200){
-                    console.log("服务器返回车次数据：",request.responseText);
+                    var trainTicketData=JSON.parse(request.responseText);
+                    for(var i=0;i<trainTicketData.length;i++){
+
+                        trainNumberTd=document.createElement("td");
+                        trainNumberTd.appendChild(document.createTextNode(trainTicketData[i].trainNumber))
+
+                        startStationTd=document.createElement("td");
+                        startStationTd.appendChild(document.createTextNode(trainTicketData[i].startStation))
+                        startStationTd.appendChild(document.createTextNode(" "+trainTicketData[i].endStation))
+
+                        departureTimeTd=document.createElement("td");
+                        departureTimeTd.appendChild(document.createTextNode(trainTicketData[i].departureTime))
+                        departureTimeTd.appendChild(document.createTextNode(" "+trainTicketData[i].arrivalTime))
+
+                        durationTd=document.createElement("td");
+                        durationTd.appendChild(document.createTextNode(trainTicketData[i].duration))
+
+                        trainTr=document.createElement("tr");
+                        trainTr.appendChild(trainNumberTd);
+                        trainTr.appendChild(startStationTd);
+                        trainTr.appendChild(departureTimeTd);
+                        trainTr.appendChild(durationTd);
+
+                        document.getElementById("train").appendChild(trainTr)
+                        console.log(trainTicketData[i].trainNumber);
+                        console.log(trainTicketData[i].startStation);
+                        console.log(trainTicketData[i].endStation);
+                        console.log(trainTicketData[i].departureTime);
+                        console.log(trainTicketData[i].arrivalTime);
+                        console.log(trainTicketData[i].duration);
+
+                    }
                 }
             }
         }
@@ -112,6 +104,7 @@
         <th>历时</th>
         <th>商务座<br>特等座</th>
     </tr>
+
     </thead>
 </table>
 <!-- <button onclick="search()">查询</button> -->

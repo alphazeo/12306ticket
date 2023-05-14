@@ -53,10 +53,15 @@ public class TicketSearch {
             String record = item.toString();
             String[] recordArr = record.split("\\|");
 
+            String startStation = codeNameMap.get(recordArr[6]);
+            String endStation = codeNameMap.get(recordArr[7]);
+
             Ticket ticket = new Ticket();
             ticket.setTrainNumber(recordArr[3]);
-            ticket.setStartStation(recordArr[6]);
-            ticket.setEndStation(recordArr[7]);
+
+            ticket.setStartStation(startStation);
+            ticket.setEndStation(endStation);
+
             ticket.setDepartureTime(recordArr[8]);
             ticket.setArrivalTime(recordArr[9]);
             ticket.setDuration(recordArr[10]);
